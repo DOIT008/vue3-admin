@@ -9,7 +9,8 @@
 <script lang="ts">
   import { defineComponent } from "vue";
   export default defineComponent({
-    setup(){
+    setup() {
+      console.log('-----',import.meta.env.NODE_ENV)
       return {
 
       }

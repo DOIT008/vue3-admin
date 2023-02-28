@@ -17,7 +17,7 @@
       "@/*": ["src/*"],
       "@views/*": ["src/views/*"],
     },
-    "types": ["element-plus/global"]
+    "types": ["element-plus/global","node"]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue","env.d.ts"],
   "references": [{

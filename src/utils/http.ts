@@ -14,7 +14,7 @@ declare module 'vue' {
 }
 // 创建实例
 const $http = axios.create({
-  baseURL: "/api", // 所有的请求都会在请求路径前添加"/api"
+  baseURL:import.meta.env.VITE_BASE_URL, // 所有的请求都会在请求路径前添加baseURL
   timeout: 5000, // 超时
   // 请求头
   headers: {

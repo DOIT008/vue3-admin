@@ -6,7 +6,7 @@ import "./style.css";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue' // 图标文件
 // 拿到路由对象
 import router from "@/router/index";
-import $http from '@/common/http';
+import $http from '@/utils/http';
 // 引入pinia
 import { createPinia } from 'pinia';
 // 执行挂载进行实例化
