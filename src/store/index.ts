@@ -1,89 +1,84 @@
 import { defineStore } from "pinia";
 // 引入其他store
 import { alinStore } from "./alian";
-import { getToken, setToken, removeToken } from '@/utils/auth';
-import {login, logout, getInfo} from '@/api/user'
+import { getToken, setToken, removeToken } from "@/utils/auth";
+import { login, logout, getInfo } from "@/api/user";
 type tabItem = {
-  path:string;
-  title:string
-}
-export const mainStore = defineStore('main',{
+  path: string;
+  title: string;
+};
+export const mainStore = defineStore("main", {
   // 存放数据的地方
-  state:()=>{
+  state: () => {
     return {
       tabList: new Array<tabItem>(),
-      token: getToken()
-    }
+      token: getToken(),
+      name: "",
+      avatar: "",
+    };
   },
   // 计算属性
-  getters:{
-
-  },
-  actions:{
+  getters: {},
+  actions: {
+    SET_TOKEN(token: string){
+      this.token = token;
+    },
+    SET_NAME(name: string){
+      this.name = name;
+    },
+    SET_AVATAR(avatar: string){
+      this.avatar = avatar;
+    },
     // user login
-  login({ commit }, userInfo) {
-    const { username, password } = userInfo;
-    return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-
-  // get user info
-  getInfo({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
-
-        if (!data) {
-          return reject('Verification failed, please Login again.')
-        }
-
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
-        // 设置头像
-        commit('SET_AVATAR', avatar)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-
-  // 退出登录
-  logout({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      removeToken() // must remove  token  first
-      resolve()
-    })
-  },
-
-  // remove token
-  resetToken({ commit }) {
-    return new Promise(resolve => {
-      removeToken() // must remove  token  first
-      resolve()
-    })
-  },
-  },
-
-
-  mutations: {
-    SET_TOKEN: (state, token) => {
-      state.token = token
+    login(userInfo:any) {
+      const { name, password } = userInfo;
+      return new Promise((resolve, reject) => {
+        login({ name: name.trim(), password: password })
+          .then((response) => {
+            const { data } = response;
+            console.log("🪶 ~ file: index.ts:39 ~ .then ~ data:", data)
+            this.SET_TOKEN(data.token)
+            setToken(data.token);
+            resolve(data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
     },
-    SET_NAME: (state, name) => {
-      state.name = name
+
+    // get user info
+    getInfo() {
+      return new Promise((resolve, reject) => {
+        getInfo(this.token)
+          .then((response) => {
+            const { data } = response;
+            console.log("🪶 ~ file: index.ts:56 ~ .then ~ data:", data)
+            const { name, avatar } = data;
+            this.SET_NAME(name);
+            this.SET_AVATAR(avatar)
+            resolve(data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
     },
-    SET_AVATAR: (state, avatar) => {
-      state.avatar = avatar
-    }
-  }
+
+    // 退出登录
+    logout() {
+      return new Promise((resolve, reject) => {
+        removeToken(); // must remove  token  first
+        resolve();
+      });
+    },
+
+    // remove token
+    resetToken() {
+      return new Promise((resolve) => {
+        removeToken(); // must remove  token  first
+        resolve();
+      });
+    },
+  },
 });

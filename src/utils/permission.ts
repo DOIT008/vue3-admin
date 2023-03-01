@@ -1,8 +1,12 @@
-import router from '../router'
-import store from '../store'
+import router from '../router';
+import pinia from '@/store/store';
+import {mainStore} from '@/store/index';
 import { Message } from 'element-plus';
-import {getToken} from './auth'
-router.beforeEach(async(to, from, next) => {
+import { getToken } from './auth'
+const store = mainStore();
+console.log("🪶 ~ file: permission.ts:6 ~ store:", store)
+router.beforeEach(async (to, from, next) => {
+  console.log("🪶 ~ file: permission.ts:7 ~ router.beforeEach ~ to, from, next:", to, from, next)
   const hasToken = getToken();
   // 有token->登陆过
   if (hasToken) {
@@ -10,7 +14,7 @@ router.beforeEach(async(to, from, next) => {
       next()
     } else {
       // 看下有用户名，如果没有就重新请求，否则直接来到目标界面
-      const hasGetUserInfo = store.getters.name
+      const hasGetUserInfo = store.name
       if (hasGetUserInfo) {
         // 有用户名->直接登录
         next()
@@ -18,11 +22,11 @@ router.beforeEach(async(to, from, next) => {
         // 没有用户名->重新请求
         try {
           // 请求用户信息
-          await store.dispatch('user/getInfo')
+          await store.getInfo()
           next()
         } catch (error) {
           // 重新设置token
-          await store.dispatch('resetToken')
+          await store.resetToken()
           next(`/login?redirect=${to.path}`)
         }
       }

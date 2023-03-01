@@ -1,6 +1,7 @@
 // vite.config.js
 import { defineConfig, loadEnv, ConfigEnv, UserConfigExport } from "vite";
 import vue from "@vitejs/plugin-vue";
+import { viteMockServe } from "vite-plugin-mock";
 // npm install --save-dev @types/node
 import { resolve } from "path";
 // https://vitejs.dev/config/
@@ -28,20 +29,21 @@ const config = ({ command, mode }: ConfigEnv): UserConfigExport => {
         },
       ],
     },
-    server: {
-      host: 'localhost',
-      port: 8080,
-      open:true,
-      proxy: {
-        '^/acb/2.0': {
-          target: 'http://zzcgj-acb.z.digitalcnzz.com',
-          changeOrigin: true,
-          // rewrite: (path) => path.replace(/^\/api/, ''),
-        },
-      }
-    },
+    // server: {
+    //   host: 'localhost',
+    //   port: 8080,
+    //   open:true,
+    //   proxy: {
+    //     '/api/2.0': {
+    //       target: 'http://localhost:8080',
+    //       changeOrigin: false,
+    //       // rewrite: (path) => path.replace(/^\/api/, ''),
+    //     },
+    //   }
+    // },
     plugins: [
       vue(),
+      viteMockServe({supportTs:true})
     ], // 使用该插件
   });
 };

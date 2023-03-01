@@ -27,7 +27,10 @@
 <script lang="ts" >
 import { ref, reactive, toRefs, getCurrentInstance, ComponentInternalInstance } from "vue";
 import { handleMD5 } from "@/utils/public";
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router';
+import { mainStore } from '@/store/index';
+import {storeToRefs} from 'pinia'
+
 interface FormData {
   name: string
   password: string,
@@ -39,6 +42,9 @@ interface ReacData {
 export default {
   name: 'login',
   setup() {
+    const store = mainStore();
+    // 解构store
+    const { token } = storeToRefs(store);
     // 断言，因为getCurrentInstance（）可能是null
     const { proxy } = getCurrentInstance() as ComponentInternalInstance;
     // proxy?.$http
@@ -56,19 +62,9 @@ export default {
 
     // 登录方法
     function login(): void {
-      const account = 'admin';
-      let password = 'Zhht@2021';
-      password = handleMD5(account,handleMD5(account,password))
-      console.log(form);
-      proxy?.$http.post('/systems/login/login', {
-        data: {
-          account,
-          password
-        }
-      }).then(res => {
-        console.log(res);
+      store.login(form).then(res => { 
+       router.push('/home')
       })
-      // router.push('/home')
     }
     // 切换当前的状态
     function switchStatus(): void {

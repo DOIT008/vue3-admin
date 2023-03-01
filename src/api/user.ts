@@ -1,16 +1,16 @@
 import request from '@/utils/http'
 // 登录
-export function login(data) {
+export function login(data:any) {
   return request({
-    url: '/user/login',
+    url: '/login',
     method: 'post',
     data
   })
 }
 // 获取用户信息
-export function getInfo(token) {
+export function getInfo(token:any) {
   return request({
-    url: '/user/info',
+    url: '/info',
     method: 'get',
     params: { token }
   })
