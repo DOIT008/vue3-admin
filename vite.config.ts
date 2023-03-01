@@ -28,6 +28,18 @@ const config = ({ command, mode }: ConfigEnv): UserConfigExport => {
         },
       ],
     },
+    server: {
+      host: 'localhost',
+      port: 8080,
+      open:true,
+      proxy: {
+        '^/acb/2.0': {
+          target: 'http://zzcgj-acb.z.digitalcnzz.com',
+          changeOrigin: true,
+          // rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+      }
+    },
     plugins: [
       vue(),
     ], // 使用该插件

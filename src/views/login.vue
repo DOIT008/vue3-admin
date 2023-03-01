@@ -26,6 +26,7 @@
 
 <script lang="ts" >
 import { ref, reactive, toRefs, getCurrentInstance, ComponentInternalInstance } from "vue";
+import { handleMD5 } from "@/utils/public";
 import { useRouter, useRoute } from 'vue-router'
 interface FormData {
   name: string
@@ -55,8 +56,19 @@ export default {
 
     // 登录方法
     function login(): void {
+      const account = 'admin';
+      let password = 'Zhht@2021';
+      password = handleMD5(account,handleMD5(account,password))
       console.log(form);
-      router.push('/home')
+      proxy?.$http.post('/systems/login/login', {
+        data: {
+          account,
+          password
+        }
+      }).then(res => {
+        console.log(res);
+      })
+      // router.push('/home')
     }
     // 切换当前的状态
     function switchStatus(): void {
