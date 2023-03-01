@@ -56,6 +56,7 @@ export default {
     // 登录方法
     function login(): void {
       console.log(form);
+      // 调用登录接口
       router.push('/home')
     }
     // 切换当前的状态
