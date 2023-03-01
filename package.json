@@ -19,6 +19,7 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@types/mockjs": "^1.0.7",
     "@types/node": "^18.11.18",
     "@vitejs/plugin-vue": "^4.0.0",
     "sass": "^1.57.1",
