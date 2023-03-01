@@ -6,9 +6,11 @@ import "./style.css";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue' // 图标文件
 // 拿到路由对象
 import router from "@/router/index";
-import $http from '@/utils/http';
+import $http from '@/common/http';
 // 引入pinia
 import { createPinia } from 'pinia';
+
+import './mocks/index'
 // 执行挂载进行实例化
 const pinia = createPinia();
 const app = createApp(App);
