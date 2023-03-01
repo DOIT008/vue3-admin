@@ -10,6 +10,8 @@ import $http from '@/common/http';
 import '@/permission' // permission control
 // 引入pinia
 import { createPinia } from 'pinia';
+
+import './mocks/index'
 // 执行挂载进行实例化
 const pinia = createPinia();
 const app = createApp(App);
