@@ -3,10 +3,8 @@ import pinia from '@/store/store';
 import {mainStore} from '@/store/index';
 import { Message } from 'element-plus';
 import { getToken } from './auth'
-const store = mainStore();
-console.log("🪶 ~ file: permission.ts:6 ~ store:", store)
 router.beforeEach(async (to, from, next) => {
-  console.log("🪶 ~ file: permission.ts:7 ~ router.beforeEach ~ to, from, next:", to, from, next)
+  const store = mainStore();
   const hasToken = getToken();
   // 有token->登陆过
   if (hasToken) {

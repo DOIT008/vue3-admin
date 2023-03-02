@@ -13,7 +13,7 @@ export const mainStore = defineStore("main", {
     return {
       tabList: new Array<tabItem>(),
       token: getToken(),
-      name: "",
+      userName: "",
       avatar: "",
     };
   },
@@ -24,7 +24,7 @@ export const mainStore = defineStore("main", {
       this.token = token;
     },
     SET_NAME(name: string){
-      this.name = name;
+      this.userName = name;
     },
     SET_AVATAR(avatar: string){
       this.avatar = avatar;
@@ -53,13 +53,14 @@ export const mainStore = defineStore("main", {
         getInfo(this.token)
           .then((response) => {
             const { data } = response;
-            console.log("🪶 ~ file: index.ts:56 ~ .then ~ data:", data)
-            const { name, avatar } = data;
-            this.SET_NAME(name);
+            const { userName, avatar } = data;
+            this.SET_NAME(userName);
+            
             this.SET_AVATAR(avatar)
             resolve(data);
           })
           .catch((error) => {
+            console.log(error);
             reject(error);
           });
       });
@@ -68,8 +69,10 @@ export const mainStore = defineStore("main", {
     // 退出登录
     logout() {
       return new Promise((resolve, reject) => {
-        removeToken(); // must remove  token  first
-        resolve();
+        logout().then(res => { 
+          removeToken(); // must remove  token  first
+          resolve();
+        })
       });
     },
 

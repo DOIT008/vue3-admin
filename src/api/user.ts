@@ -10,15 +10,15 @@ export function login(data:any) {
 // 获取用户信息
 export function getInfo(token:any) {
   return request({
-    url: '/info',
+    url: '/userInfo',
     method: 'get',
-    params: { token }
+    data: { token }
   })
 }
 // 退出登录
 export function logout() {
   return request({
-    url: '/user/logout',
+    url: '/logout',
     method: 'post'
   })
 }

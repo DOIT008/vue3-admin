@@ -28,7 +28,7 @@ const $http = axios.create({
 $http.interceptors.request.use((config) => {
   let { method } = config;
   // console.log(config);
-  // config.data = config.data.data
+  config.data = config.data.data
   // if (method === 'post') {
   //   config.data = qs.stringify(config.data.data, {
   //     arrayFormat: "repeat"

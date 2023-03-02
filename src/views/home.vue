@@ -11,7 +11,9 @@
             </el-icon>
           </el-button>
         </div>
-        <el-button link type="primary">退出</el-button>
+        <div>{{ userName }}</div>
+        <img :src="avatar" alt="">
+        <el-button link type="primary" @click="logout" >退出</el-button>
       </el-header>
       <el-container>
         <el-aside :width="asideWidth" style="height:calc(100vh - 60px );">
@@ -49,6 +51,8 @@ import { ArrowLeft } from '@element-plus/icons-vue'
 import { defineComponent, reactive, toRefs,watch} from 'vue';
 import { useRouter, useRoute,onBeforeRouteUpdate } from "vue-router";
 import menuTab from '@/components/tabs.vue'
+import { mainStore } from '@/store/index';
+import {storeToRefs} from 'pinia'
 interface State {
   isCollapse: boolean
   asideWidth: string
@@ -56,6 +60,9 @@ interface State {
 }
 export default defineComponent({
   setup() {
+    const store = mainStore();
+    const router = useRouter()
+    const {userName,avatar} = storeToRefs(store)
     const route = useRoute();
     const state = reactive<State>({
       isCollapse: false,
@@ -79,9 +86,20 @@ export default defineComponent({
       console.log('newVal',newVal);
       state.defaultActive = newVal.path.slice(1)
     })
+
+    // 退出登录
+    function logout() { 
+      store.logout().then(res => { 
+        router.push('/login')
+      })
+    }
+
     return {
       ...toRefs(state),
-      collapseClick
+      collapseClick,
+      logout,
+      userName,
+      avatar
     };
   },
   components: { ArrowLeft,menuTab }

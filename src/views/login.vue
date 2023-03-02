@@ -43,8 +43,6 @@ export default {
   name: 'login',
   setup() {
     const store = mainStore();
-    // 解构store
-    const { token } = storeToRefs(store);
     // 断言，因为getCurrentInstance（）可能是null
     const { proxy } = getCurrentInstance() as ComponentInternalInstance;
     // proxy?.$http
