@@ -27,6 +27,7 @@ const $http = axios.create({
 
 // 请求发送之前进行拦截,
 $http.interceptors.request.use((config) => {
+  console.log("🐇 ~ file: http.ts:30 ~ $http.interceptors.request.use ~ config:", config)
   let { method } = config;
   // console.log(config);
   config.data = config.data.data
