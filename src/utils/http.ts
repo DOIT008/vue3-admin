@@ -1,7 +1,7 @@
 import { getToken } from '@/utils/auth';
 //  封装Axios请求
 import axios from "axios";
-import {AxiosInstance} from "axios";
+import { AxiosInstance } from "axios";
 import { ElMessage } from "element-plus";
 import qs from 'qs';
 enum CodeInt {
@@ -15,29 +15,32 @@ declare module 'vue' {
   }
 }
 // 创建实例
-axios.defaults.headers["Content-Type"] = "application/json;charset=UTF-8";
 const $http = axios.create({
-  baseURL:import.meta.env.VITE_BASE_URL, // 所有的请求都会在请求路径前添加baseURL
+  baseURL: import.meta.env.VITE_BASE_URL, // 所有的请求都会在请求路径前添加baseURL
   timeout: 5000, // 超时
   // 请求头
   headers: {
-    'Session-Id':getToken()
+    'Session-Id': getToken(),
+    "Content-Type":"application/json;charset=UTF-8"
   },
 });
 
 // 请求发送之前进行拦截,
 $http.interceptors.request.use((config) => {
-  console.log("🐇 ~ file: http.ts:30 ~ $http.interceptors.request.use ~ config:", config)
-  let { method } = config;
-  // console.log(config);
-  config.data = config.data.data
-  // if (method === 'post') {
-  //   config.data = qs.stringify(config.data.data, {
-  //     arrayFormat: "repeat"
-  //   });
-  // }
-  config.headers = config.headers || {}; // 请求头
-  // config.headers.token = 123,一般应该是从缓存中拿的
+  const { method, data } = config;
+  if (method?.toLocaleLowerCase() === 'get') {
+    config.url =
+      config.url + (config.url?.indexOf('?') !== -1 ? '&' : '?') + 'timestamp=' + Date.now();
+    config.params = data;
+  } else if (method?.toLocaleLowerCase() === 'post') {
+    if (config.headers?.getContentType().indexOf('application/x-www-form-urlencoded') === -1) {
+      config.data = data
+    } else {
+      config.data = qs.stringify(data, {
+        arrayFormat: 'repeat'
+      });
+    }
+  }
   return config;
 });
 

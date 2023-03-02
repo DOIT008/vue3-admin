@@ -3,7 +3,7 @@ import Mock from 'mockjs';
 Mock.setup({
   timeout: '200-600'
 });
-Mock.mock('/api/2.0/login', 'post', () => { 
+Mock.mock(RegExp('/api/2.0/login.*'), 'post', () => { 
   return {
     status:200, //请求成功状态码
     data: {
@@ -12,7 +12,7 @@ Mock.mock('/api/2.0/login', 'post', () => {
   }
 })
 // 获取用户信息
-Mock.mock('/api/2.0/userInfo','get',()=>{
+Mock.mock(RegExp('/api/2.0/userInfo.*'),'get',()=>{
   return {
       status:200,
       message:'请求列表成功！',

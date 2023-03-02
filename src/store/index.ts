@@ -36,7 +36,6 @@ export const mainStore = defineStore("main", {
         login({ name: name.trim(), password: password })
           .then((response) => {
             const { data } = response;
-            console.log("🪶 ~ file: index.ts:39 ~ .then ~ data:", data)
             this.SET_TOKEN(data.token)
             setToken(data.token);
             resolve(data);
