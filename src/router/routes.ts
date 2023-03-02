@@ -5,7 +5,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "main",
-    redirect: "/login", //表示初始化的时候重定向到path为/login的路由并显示其对应的组件
+    redirect: "/home", //表示初始化的时候重定向到path为/home的路由并显示其对应的组件
   },
   {
     path: "/login",

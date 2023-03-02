@@ -29,7 +29,7 @@ export const mainStore = defineStore("main", {
     SET_AVATAR(avatar: string){
       this.avatar = avatar;
     },
-    // user login
+    // 登录
     login(userInfo:any) {
       const { name, password } = userInfo;
       return new Promise((resolve, reject) => {
@@ -47,7 +47,7 @@ export const mainStore = defineStore("main", {
       });
     },
 
-    // get user info
+    // 获取用户信息
     getInfo() {
       return new Promise((resolve, reject) => {
         getInfo(this.token)
@@ -71,7 +71,7 @@ export const mainStore = defineStore("main", {
       return new Promise((resolve, reject) => {
         logout().then(res => { 
           removeToken(); // must remove  token  first
-          resolve();
+          resolve('success');
         })
       });
     },
@@ -80,7 +80,7 @@ export const mainStore = defineStore("main", {
     resetToken() {
       return new Promise((resolve) => {
         removeToken(); // must remove  token  first
-        resolve();
+        resolve('success');
       });
     },
   },

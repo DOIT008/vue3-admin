@@ -3,6 +3,7 @@
     <el-container>
       <el-header class="header-wrapper">
         <div>
+          <button @click="requestData" >模拟请求</button>
           Vue3+TS+ElememtPlus后台模板
           <el-button plain type="primary" class="collapse-btn" @click="collapseClick">
             <el-icon>
@@ -48,7 +49,7 @@
 
 <script lang="ts" >
 import { ArrowLeft } from '@element-plus/icons-vue'
-import { defineComponent, reactive, toRefs,watch} from 'vue';
+import { ComponentInternalInstance, defineComponent, getCurrentInstance, reactive, toRefs,watch} from 'vue';
 import { useRouter, useRoute,onBeforeRouteUpdate } from "vue-router";
 import menuTab from '@/components/tabs.vue'
 import { mainStore } from '@/store/index';
@@ -60,6 +61,7 @@ interface State {
 }
 export default defineComponent({
   setup() {
+    const { proxy } = getCurrentInstance() as ComponentInternalInstance;
     const store = mainStore();
     const router = useRouter()
     const {userName,avatar} = storeToRefs(store)
@@ -80,7 +82,11 @@ export default defineComponent({
         state.asideWidth = '200px'
       }
     }
- 
+    function requestData() { 
+      proxy?.$http.get('https://jsonplaceholder.typicode.com/posts').then((res) => { 
+        console.log("进来了")
+      })
+    }
     // 监控路由变化,当删除某一个tab的时候，更新左侧菜单栏哪一个菜单激活
     watch(route,(newVal,oldVal)=>{
       console.log('newVal',newVal);
@@ -98,6 +104,7 @@ export default defineComponent({
       ...toRefs(state),
       collapseClick,
       logout,
+      requestData,
       userName,
       avatar
     };
