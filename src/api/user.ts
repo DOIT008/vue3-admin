@@ -4,6 +4,9 @@ export function login(data:any) {
   return request({
     url: '/login',
     method: 'post',
+    headers:{
+      // 'Content-type':'application/json;'
+    },
     data
   })
 }
@@ -19,6 +22,9 @@ export function getInfo(token:any) {
 export function logout() {
   return request({
     url: '/logout',
-    method: 'post'
+    method: 'post',
+    headers:{
+      'Content-type':'application/x-www-form-urlencoded'
+    },
   })
 }
