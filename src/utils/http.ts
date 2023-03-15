@@ -1,61 +1,135 @@
-import { getToken } from '@/utils/auth';
-//  封装Axios请求
+// index.ts
 import axios from "axios";
-import { AxiosInstance } from "axios";
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { ElMessage } from "element-plus";
-import qs from 'qs';
-enum CodeInt {
-  "请求成功" = 200,
-  "请求异常" = 501,
-}
-// 类型声明
-declare module 'vue' {
-  interface ComponentCustomProperties {
-    $http: AxiosInstance;
-  }
-}
-// 创建实例
-const $http = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL, // 所有的请求都会在请求路径前添加baseURL
-  timeout: 5000, // 超时
-  // 请求头
-  headers: {
-    'Session-Id': getToken(),
-    "Content-Type":"application/json;charset=UTF-8"
-  },
-});
+type Result<T> = {
+  code: number;
+  message: string;
+  result: T;
+};
 
-// 请求发送之前进行拦截,
-$http.interceptors.request.use((config) => {
-  const { method, data } = config;
-  if (method?.toLocaleLowerCase() === 'get') {
-    config.url =
-      config.url + (config.url?.indexOf('?') !== -1 ? '&' : '?') + 'timestamp=' + Date.now();
-    config.params = data;
-  } else if (method?.toLocaleLowerCase() === 'post') {
-    if (config.headers?.getContentType().indexOf('application/x-www-form-urlencoded') === -1) {
-      config.data = data
-    } else {
-      config.data = qs.stringify(data, {
-        arrayFormat: 'repeat'
-      });
-    }
-  }
-  return config;
-});
+// 导出Request类，可以用来自定义传递配置来创建实例
+export class Request {
+  // axios 实例
+  instance: AxiosInstance;
+  // 基础配置，url和超时时间
+  baseConfig: AxiosRequestConfig = { baseURL: "/api", timeout: 60000 };
 
-//对返回结果进行拦截
-$http.interceptors.response.use(
-  (res) => {
-    const code: number = res.data?.status;
-    if (code !== 200) {
-      ElMessage.error(CodeInt[code]);
-      return Promise.reject(res.data);
-    } else {
-      return res.data;
-    }
-  },
-  (err) => {
+  constructor(config: AxiosRequestConfig) {
+    // 使用axios.create创建axios实例
+    this.instance = axios.create(Object.assign(this.baseConfig, config));
+
+    this.instance.interceptors.request.use(
+      (config: AxiosRequestConfig) => {
+        // 一般会请求拦截里面加token，用于后端的验证
+        const token = localStorage.getItem("token") as string
+        if(token) {
+          config.headers!.Authorization = token;
+        }
+        if (config.method?.toUpperCase() === 'GET') {
+          config.headers['Content-Type'] = 'a'
+        }
+        return config;
+      },
+      (err: any) => {
+        // 请求错误，这里可以用全局提示框进行提示
+        return Promise.reject(err);
+      }
+    );
+
+    this.instance.interceptors.response.use(
+      (res: AxiosResponse) => {
+        // 直接返回res，当然你也可以只返回res.data
+        // 系统如果有自定义code也可以在这里处理
+        return res;
+      },
+      (err: any) => {
+        // 这里用来处理http常见错误，进行全局提示
+        let message = "";
+        switch (err.response.status) {
+          case 400:
+            message = "请求错误(400)";
+            break;
+          case 401:
+            message = "未授权，请重新登录(401)";
+            // 这里可以做清空storage并跳转到登录页的操作
+            break;
+          case 403:
+            message = "拒绝访问(403)";
+            break;
+          case 404:
+            message = "请求出错(404)";
+            break;
+          case 408:
+            message = "请求超时(408)";
+            break;
+          case 500:
+            message = "服务器错误(500)";
+            break;
+          case 501:
+            message = "服务未实现(501)";
+            break;
+          case 502:
+            message = "网络错误(502)";
+            break;
+          case 503:
+            message = "服务不可用(503)";
+            break;
+          case 504:
+            message = "网络超时(504)";
+            break;
+          case 505:
+            message = "HTTP版本不受支持(505)";
+            break;
+          default:
+            message = `连接出错(${err.response.status})!`;
+        }
+        ElMessage({
+          showClose: true,
+          message: `${message}，请检查网络或联系管理员！`,
+          type: "error",
+        });
+        // 这里是AxiosError类型，所以一般我们只reject我们需要的响应即可
+        return Promise.reject(err.response);
+      }
+    );
   }
-);
-export default $http;
+
+  // 定义请求方法
+  public request(config: AxiosRequestConfig): Promise<AxiosResponse> {
+    return this.instance.request(config);
+  }
+
+  public get<T = any>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<Result<T>>> {
+    return this.instance.get(url, config);
+  }
+
+  public post<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<Result<T>>> {
+    return this.instance.post(url, data, config);
+  }
+
+  public put<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<Result<T>>> {
+    return this.instance.put(url, data, config);
+  }
+
+  public delete<T = any>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<Result<T>>> {
+    return this.instance.delete(url, config);
+  }
+}
+
+// 默认导出Request实例
+export default new Request({})
