@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 // 引入其他store
 import { alinStore } from "./alian";
 import { getToken, setToken, removeToken } from "@/utils/auth";
-import { login, logout, getInfo } from "@/api/user";
+import { login, logout, getInfo,getImages } from "@/api/user";
 type tabItem = {
   path: string;
   title: string;
@@ -71,6 +71,14 @@ export const mainStore = defineStore("main", {
         logout().then(res => { 
           removeToken(); // must remove  token  first
           resolve('success');
+        })
+      });
+    },
+    // 美女图片
+    getBeauty(data:object) {
+      return new Promise((resolve, reject) => {
+        getImages(data).then(res => { 
+          resolve(res)
         })
       });
     },

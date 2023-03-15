@@ -16,7 +16,7 @@
         <el-button size="small" v-else link class="register-btn" @click="switchStatus">登录</el-button>
         <div style="clear:both"></div>
         <div class="login-btn-wrapper">
-          <el-button class="login-btn" v-if="isLogin" type="primary" @click="login">登录</el-button>
+          <el-button class="login-btn" v-if="isLogin" type="primary" @click="getBeauties">登录</el-button>
           <el-button class="login-btn" v-else type="primary" @click="register" plain>注册</el-button>
         </div>
       </el-form>
@@ -64,6 +64,13 @@ export default {
        router.push('/home')
       })
     }
+
+    // 获取美女图片
+    function getBeauties(): void{ 
+      store.getBeauty({ key: 'mm' }).then(res => { 
+        console.log('res---',res);
+      })
+    }
     // 切换当前的状态
     function switchStatus(): void {
       reacData.isLogin = !reacData.isLogin
@@ -79,6 +86,7 @@ export default {
       router,
       register,
       switchStatus,
+      getBeauties,
       ...toRefs(reacData)
     }
   }

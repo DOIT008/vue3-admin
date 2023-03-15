@@ -6,16 +6,18 @@ import "./style.css";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue' // 图标文件
 // 拿到路由对象
 import router from "@/router/index";
-import $http from '@/utils/http';
+import request from '@/utils/http';
 // 引入pinia
 import "@/utils/permission";
 import pinia from '@/store/store'
 import './mocks/index'
+import $http from "./utils/http.old";
 // 执行挂载进行实例化
 const app = createApp(App);
 app.use(pinia);
 // 全局注入
-app.config.globalProperties.$http = $http
+app.config.globalProperties.$http = request.instance;
+
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
