@@ -28,14 +28,18 @@ export function logout() {
     },
   })
 }
+type requestType = {
+  data: any[],
+  page: string,
+  pageSize: object,
+  stat:string
+}
 // 美女图片
-export function getImages (data:any) {
-  return request.request({
-    url: '/dream/category',
-    method: "GET",
+export function getHotNews(data: any) {
+  return request.get<requestType>('/toutiao/index', {
+    params: data,
     headers: {
-      // 'Content-type':'application/json;'
-    },
-    data
+      'Content-Type':'application/text;charset-utf-8'
+    }
   })
 }

@@ -74,15 +74,6 @@ export const mainStore = defineStore("main", {
         })
       });
     },
-    // 美女图片
-    getBeauty(data:object) {
-      return new Promise((resolve, reject) => {
-        getImages(data).then(res => { 
-          resolve(res)
-        })
-      });
-    },
-
     // remove token
     resetToken() {
       return new Promise((resolve) => {

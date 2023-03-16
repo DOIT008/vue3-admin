@@ -2,9 +2,10 @@
 import axios from "axios";
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { ElMessage } from "element-plus";
+// 设定返回的结果结构
 type Result<T> = {
-  code: number;
-  message: string;
+  error_code: number;
+  reason: string;
   result: T;
 };
 

@@ -29,6 +29,7 @@ import { ref, reactive, toRefs, getCurrentInstance, ComponentInternalInstance } 
 import { handleMD5 } from "@/utils/public";
 import { useRouter, useRoute } from 'vue-router';
 import { mainStore } from '@/store/index';
+import { getHotNews } from '@/api/user';
 import {storeToRefs} from 'pinia'
 
 interface FormData {
@@ -67,7 +68,10 @@ export default {
 
     // 获取美女图片
     function getBeauties(): void{ 
-      store.getBeauty({ key: 'mm' }).then(res => { 
+      getHotNews({ key: 'bd946b1c08d936d82998fe92b8691893', page: 2, pageSize: 12 }).then(res => {
+        // response.error_code
+        // response.result.pageSize
+        // let response = res.data; 
         console.log('res---',res);
       })
     }
