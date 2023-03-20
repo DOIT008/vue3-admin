@@ -39,7 +39,7 @@ export function getHotNews(data: any) {
   return request.get<requestType>('/toutiao/index', {
     params: data,
     headers: {
-      'Content-Type':'application/text;charset-utf-8'
+      'Content-Type':'application/json;charset-utf-8'
     }
   })
 }

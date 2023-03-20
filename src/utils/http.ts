@@ -8,13 +8,15 @@ type Result<T> = {
   reason: string;
   result: T;
 };
-
 // 导出Request类，可以用来自定义传递配置来创建实例
 export class Request {
   // axios 实例
   instance: AxiosInstance;
   // 基础配置，url和超时时间
-  baseConfig: AxiosRequestConfig = { baseURL: "/api/2.0", timeout: 60000 };
+  baseConfig: AxiosRequestConfig = {
+    baseURL: import.meta.env.VITE_BASE_URL, // 所有的请求都是baseURL+url
+    timeout: 60000 // 超时
+  }; 
 
   constructor(config: AxiosRequestConfig) {
     // 使用axios.create创建axios实例
@@ -27,7 +29,6 @@ export class Request {
         if(token) {
           config.headers!.Authorization = token;
         }
-
         return config;
       },
       (err: any) => {
