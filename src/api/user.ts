@@ -34,7 +34,7 @@ type requestType = {
   pageSize: object,
   stat:string
 }
-// 美女图片
+// 热点信息
 export function getHotNews(data: any) {
   return request.get<requestType>('/toutiao/index', {
     params: data,
