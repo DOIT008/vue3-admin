@@ -15,6 +15,7 @@ import $http from './utils/http.old';
 // 执行挂载进行实例化
 const app = createApp(App);
 app.use(pinia);
+console.log('haha');
 // 全局注入
 app.config.globalProperties.$http = request.instance;
 
