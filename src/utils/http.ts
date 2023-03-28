@@ -2,18 +2,21 @@
 import axios from "axios";
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { ElMessage } from "element-plus";
+// 设定返回的结果结构
 type Result<T> = {
-  code: number;
-  message: string;
+  error_code: number;
+  reason: string;
   result: T;
 };
-
 // 导出Request类，可以用来自定义传递配置来创建实例
 export class Request {
   // axios 实例
   instance: AxiosInstance;
   // 基础配置，url和超时时间
-  baseConfig: AxiosRequestConfig = { baseURL: "/api", timeout: 60000 };
+  baseConfig: AxiosRequestConfig = {
+    baseURL: import.meta.env.VITE_BASE_URL, // 所有的请求都是baseURL+url
+    timeout: 60000 // 超时
+  }; 
 
   constructor(config: AxiosRequestConfig) {
     // 使用axios.create创建axios实例
@@ -23,11 +26,9 @@ export class Request {
       (config: AxiosRequestConfig) => {
         // 一般会请求拦截里面加token，用于后端的验证
         const token = localStorage.getItem("token") as string
-        if(token) {
-          config.headers!.Authorization = token;
-        }
-        if (config.method?.toUpperCase() === 'GET') {
-          config.headers['Content-Type'] = 'a'
+        if (token) {
+          typeof config.headers!.set === 'function'  && config.headers!.set('Authorization', token)
+          // config.headers!.Authorization = token;
         }
         return config;
       },
@@ -84,6 +85,8 @@ export class Request {
           default:
             message = `连接出错(${err.response.status})!`;
         }
+        // 这里错误消息可以使用全局弹框展示出来
+        // 比如element plus 可以使用 ElMessage
         ElMessage({
           showClose: true,
           message: `${message}，请检查网络或联系管理员！`,

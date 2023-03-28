@@ -16,7 +16,7 @@
         <el-button size="small" v-else link class="register-btn" @click="switchStatus">登录</el-button>
         <div style="clear:both"></div>
         <div class="login-btn-wrapper">
-          <el-button class="login-btn" v-if="isLogin" type="primary" @click="login">登录</el-button>
+          <el-button class="login-btn" v-if="isLogin" type="primary" @click="getBeauties">登录</el-button>
           <el-button class="login-btn" v-else type="primary" @click="register" plain>注册</el-button>
         </div>
       </el-form>
@@ -29,6 +29,7 @@ import { ref, reactive, toRefs, getCurrentInstance, ComponentInternalInstance } 
 import { handleMD5 } from "@/utils/public";
 import { useRouter, useRoute } from 'vue-router';
 import { mainStore } from '@/store/index';
+import { getHotNews } from '@/api/user';
 import {storeToRefs} from 'pinia'
 
 interface FormData {
@@ -64,6 +65,16 @@ export default {
        router.push('/home')
       })
     }
+
+    // 获取美女图片
+    function getBeauties(): void{ 
+      getHotNews({ key: 'bd946b1c08d936d82998fe92b8691893', page: 2, pageSize: 12 }).then(res => {
+        // response.error_code
+        // response.result.pageSize
+        // let response = res.data; 
+        console.log('res---',res);
+      })
+    }
     // 切换当前的状态
     function switchStatus(): void {
       reacData.isLogin = !reacData.isLogin
@@ -79,6 +90,7 @@ export default {
       router,
       register,
       switchStatus,
+      getBeauties,
       ...toRefs(reacData)
     }
   }

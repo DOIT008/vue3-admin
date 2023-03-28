@@ -29,18 +29,18 @@ const config = ({ command, mode }: ConfigEnv): UserConfigExport => {
         },
       ],
     },
-    // server: {
-    //   host: 'localhost',
-    //   port: 8080,
-    //   open:true,
-    //   proxy: {
-    //     '/api/2.0': {
-    //       target: 'http://localhost:8080',
-    //       changeOrigin: false,
-    //       // rewrite: (path) => path.replace(/^\/api/, ''),
-    //     },
-    //   }
-    // },
+    server: {
+      host: 'localhost',
+      port: 8080,
+      open:true,
+      proxy: {
+        '/api/2.0': {
+          target: 'http://v.juhe.cn',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/2.0/, ''),
+        },
+      }
+    },
     plugins: [
       vue(),
       viteMockServe({supportTs:true})
