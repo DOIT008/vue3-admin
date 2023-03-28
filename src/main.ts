@@ -11,7 +11,6 @@ import request from '@/utils/http';
 import '@/utils/permission';
 import pinia from '@/store/store';
 import './mocks/index';
-import $http from './utils/http.old';
 // 执行挂载进行实例化
 const app = createApp(App);
 app.use(pinia);
