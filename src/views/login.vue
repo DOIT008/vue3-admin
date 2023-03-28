@@ -12,33 +12,41 @@
         <el-form-item label="确认密码" v-if="!isLogin" label-width="69px" class="password-wrapper">
           <el-input v-model="form.confirmPwd" type="password" placeholder="请输入密码" />
         </el-form-item>
-        <el-button size="small" v-if="isLogin" link class="register-btn" @click="switchStatus">注册</el-button>
-        <el-button size="small" v-else link class="register-btn" @click="switchStatus">登录</el-button>
-        <div style="clear:both"></div>
+        <el-button size="small" v-if="isLogin" link class="register-btn" @click="switchStatus"
+          >注册</el-button
+        >
+        <el-button size="small" v-else link class="register-btn" @click="switchStatus"
+          >登录</el-button
+        >
+        <div style="clear: both"></div>
         <div class="login-btn-wrapper">
-          <el-button class="login-btn" v-if="isLogin" type="primary" @click="getBeauties">登录</el-button>
-          <el-button class="login-btn" v-else type="primary" @click="register" plain>注册</el-button>
+          <el-button class="login-btn" v-if="isLogin" type="primary" @click="getBeauties"
+            >登录</el-button
+          >
+          <el-button class="login-btn" v-else type="primary" @click="register" plain
+            >注册</el-button
+          >
         </div>
       </el-form>
     </div>
   </div>
 </template>
 
-<script lang="ts" >
-import { ref, reactive, toRefs, getCurrentInstance, ComponentInternalInstance } from "vue";
-import { handleMD5 } from "@/utils/public";
+<script lang="ts">
+import { ref, reactive, toRefs, getCurrentInstance, ComponentInternalInstance } from 'vue';
+import { handleMD5 } from '@/utils/public';
 import { useRouter, useRoute } from 'vue-router';
 import { mainStore } from '@/store/index';
 import { getHotNews } from '@/api/user';
-import {storeToRefs} from 'pinia'
+import { storeToRefs } from 'pinia';
 
 interface FormData {
-  name: string
-  password: string,
-  confirmPwd: string
+  name: string;
+  password: string;
+  confirmPwd: string;
 }
 interface ReacData {
-  isLogin: boolean
+  isLogin: boolean;
 }
 export default {
   name: 'login',
@@ -50,39 +58,37 @@ export default {
     const form = reactive<FormData>({
       name: '',
       password: '',
-      confirmPwd: ''
-    })
+      confirmPwd: '',
+    });
     // 所有其他数据
     const reacData = reactive<ReacData>({
-      isLogin: true
-    })
+      isLogin: true,
+    });
     // 路由对象
-    const router = useRouter()
+    const router = useRouter();
 
     // 登录方法
     function login(): void {
-      store.login(form).then(res => { 
-       router.push('/home')
-      })
+      store.login(form).then((res) => {
+        router.push('/home');
+      });
     }
 
     // 获取热点信息
-    function getBeauties(): void{ 
-      getHotNews({ key: 'bd946b1c08d936d82998fe92b8691893', page: 2, pageSize: 12 }).then(res => {
+    function getBeauties(): void {
+      getHotNews({ key: 'bd946b1c08d936d82998fe92b8691893', page: 2, pageSize: 12 }).then((res) => {
         // response.error_code
         // response.result.pageSize
-        // let response = res.data; 
-        console.log('res---',res);
-      })
+        // let response = res.data;
+        console.log('res---', res);
+      });
     }
     // 切换当前的状态
     function switchStatus(): void {
-      reacData.isLogin = !reacData.isLogin
+      reacData.isLogin = !reacData.isLogin;
     }
 
-    function register(): void {
-
-    }
+    function register(): void {}
 
     return {
       form,
@@ -91,10 +97,10 @@ export default {
       register,
       switchStatus,
       getBeauties,
-      ...toRefs(reacData)
-    }
-  }
-}
+      ...toRefs(reacData),
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

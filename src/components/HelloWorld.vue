@@ -1,11 +1,7 @@
-<script>
-
-</script>
+<script></script>
 
 <template>
-  <div>
-    121212
-  </div>
+  <div>121212</div>
 </template>
 
 <style scoped>

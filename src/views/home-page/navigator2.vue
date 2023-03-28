@@ -1,25 +1,21 @@
 <template>
-  <div>
-    导航2
-  </div>
+  <div>导航2</div>
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs } from 'vue';
 
 export default {
-  setup () {
+  setup() {
     const state = reactive({
       count: 0,
-    })
-  
+    });
+
     return {
       ...toRefs(state),
-    }
-  }
-}
+    };
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -1,42 +1,43 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 // 引入其他store
-import { alinStore } from "./alian";
-import { getToken, setToken, removeToken } from "@/utils/auth";
-import { login, logout, getInfo,getImages } from "@/api/user";
-type tabItem = {
+import { alinStore } from './alian';
+import { getToken, setToken, removeToken } from '@/utils/auth';
+import { login, logout, getInfo, getImages } from '@/api/user';
+
+interface tabItem {
   path: string;
   title: string;
-};
-export const mainStore = defineStore("main", {
+}
+export const mainStore = defineStore('main', {
   // 存放数据的地方
   state: () => {
     return {
       tabList: new Array<tabItem>(),
       token: getToken(),
-      userName: "",
-      avatar: "",
+      userName: '',
+      avatar: '',
     };
   },
   // 计算属性
   getters: {},
   actions: {
-    SET_TOKEN(token: string){
+    SET_TOKEN(token: string) {
       this.token = token;
     },
-    SET_NAME(name: string){
+    SET_NAME(name: string) {
       this.userName = name;
     },
-    SET_AVATAR(avatar: string){
+    SET_AVATAR(avatar: string) {
       this.avatar = avatar;
     },
     // 登录
-    login(userInfo:any) {
+    login(userInfo: any) {
       const { name, password } = userInfo;
       return new Promise((resolve, reject) => {
-        login({ name: name.trim(), password: password })
+        login({ name: name.trim(), password })
           .then((response) => {
             const { data } = response;
-            this.SET_TOKEN(data.token)
+            this.SET_TOKEN(data.token);
             setToken(data.token);
             resolve(data);
           })
@@ -54,8 +55,8 @@ export const mainStore = defineStore("main", {
             const { data } = response;
             const { userName, avatar } = data;
             this.SET_NAME(userName);
-            
-            this.SET_AVATAR(avatar)
+
+            this.SET_AVATAR(avatar);
             resolve(data);
           })
           .catch((error) => {
@@ -68,10 +69,10 @@ export const mainStore = defineStore("main", {
     // 退出登录
     logout() {
       return new Promise((resolve, reject) => {
-        logout().then(res => { 
+        logout().then((res) => {
           removeToken(); // must remove  token  first
           resolve('success');
-        })
+        });
       });
     },
     // remove token
