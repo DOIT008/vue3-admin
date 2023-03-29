@@ -54,14 +54,14 @@
 <script lang="ts">
 import { ArrowLeft } from '@element-plus/icons-vue';
 import {
-  ComponentInternalInstance,
+  // ComponentInternalInstance,
   defineComponent,
-  getCurrentInstance,
+  // getCurrentInstance,
   reactive,
   toRefs,
   watch,
 } from 'vue';
-import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import menuTab from '@/components/tabs.vue';
 import { mainStore } from '@/store/index';
 import { storeToRefs } from 'pinia';
@@ -94,14 +94,14 @@ export default defineComponent({
       }
     }
     // 监控路由变化,当删除某一个tab的时候，更新左侧菜单栏哪一个菜单激活
-    watch(route, (newVal, oldVal) => {
+    watch(route, (newVal) => {
       console.log('newVal', newVal);
       state.defaultActive = newVal.path.slice(1);
     });
 
     // 退出登录
     function logout() {
-      store.logout().then((res) => {
+      store.logout().then(() => {
         router.push('/login');
       });
     }

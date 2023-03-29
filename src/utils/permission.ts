@@ -1,7 +1,7 @@
 import router from '../router';
-import pinia from '@/store/store';
+// import pinia from '@/store/store';
 import { mainStore } from '@/store/index';
-import { Message } from 'element-plus';
+// import { Message } from 'element-plus';
 import { getToken } from './auth';
 
 router.beforeEach(async (to, from, next) => {

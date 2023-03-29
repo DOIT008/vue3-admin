@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
 // 引入其他store
-import { alinStore } from './alian';
+// import { alinStore } from './alian';
 import { getToken, setToken, removeToken } from '@/utils/auth';
-import { login, logout, getInfo, getImages } from '@/api/user';
+import { login, logout, getInfo } from '@/api/user';
 
 interface tabItem {
   path: string;
@@ -69,10 +69,15 @@ export const mainStore = defineStore('main', {
     // 退出登录
     logout() {
       return new Promise((resolve, reject) => {
-        logout().then((res) => {
-          removeToken(); // must remove  token  first
-          resolve('success');
-        });
+        logout()
+          .then((res) => {
+            console.log(res);
+            removeToken(); // must remove  token  first
+            resolve('success');
+          })
+          .catch((err) => {
+            reject(err);
+          });
       });
     },
     // remove token

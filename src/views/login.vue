@@ -33,12 +33,12 @@
 </template>
 
 <script lang="ts">
-import { ref, reactive, toRefs, getCurrentInstance, ComponentInternalInstance } from 'vue';
-import { handleMD5 } from '@/utils/public';
-import { useRouter, useRoute } from 'vue-router';
+import { reactive, toRefs } from 'vue';
+// import { handleMD5 } from '@/utils/public';
+import { useRouter } from 'vue-router';
 import { mainStore } from '@/store/index';
 import { getHotNews } from '@/api/user';
-import { storeToRefs } from 'pinia';
+// import { storeToRefs } from 'pinia';
 
 interface FormData {
   name: string;
@@ -53,7 +53,7 @@ export default {
   setup() {
     const store = mainStore();
     // 断言，因为getCurrentInstance（）可能是null
-    const { proxy } = getCurrentInstance() as ComponentInternalInstance;
+    // const { proxy } = getCurrentInstance() as ComponentInternalInstance;
     // proxy?.$http
     const form = reactive<FormData>({
       name: '',
@@ -69,7 +69,7 @@ export default {
 
     // 登录方法
     function login(): void {
-      store.login(form).then((res) => {
+      store.login(form).then(() => {
         router.push('/home');
       });
     }

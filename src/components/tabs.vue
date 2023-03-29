@@ -40,7 +40,7 @@ export default defineComponent({
       activeName: '',
     });
     // tab编辑事件，点击tab切换路由
-    function handleClick(pane: TabsPaneContext, ev: Event) {
+    function handleClick(pane: TabsPaneContext) {
       router.push(pane.props.name as RouteLocationRaw); // 断言
     }
     // 初始化更新tab
@@ -48,25 +48,24 @@ export default defineComponent({
       updateTabList(useRoute());
     });
     // 路由守卫
-    onBeforeRouteUpdate((to, from) => {
+    onBeforeRouteUpdate((to) => {
       updateTabList(to);
     });
     // 公共方法
     function updateTabList(route: any) {
-      store.$patch((store) => {
+      store.$patch((_store) => {
         // 看下数组中有没有该数据，如果有则激活，没有就添加
-        const currentRoute = store.tabList.find((item) => item.path === route.path);
+        const currentRoute = _store.tabList.find((item) => item.path === route.path);
         if (currentRoute) {
           state.activeName = currentRoute.path;
         } else {
-          store.tabList.push({ path: route.path, title: route.meta.title as string });
+          _store.tabList.push({ path: route.path, title: route.meta.title as string });
           state.activeName = route.path;
         }
       });
     }
     // 删除tab
     function tabRemove(tabName: TabPaneName) {
-      console.log(tabName);
       // 在tabList中找到要删除的那一项的下标
       const index = store.tabList.findIndex((item) => item.path === tabName);
       // 如果tablist大于1

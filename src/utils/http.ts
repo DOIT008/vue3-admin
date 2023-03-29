@@ -23,14 +23,15 @@ export class Request {
     this.instance = axios.create(Object.assign(this.baseConfig, config));
 
     this.instance.interceptors.request.use(
-      (config: AxiosRequestConfig) => {
+      (_config: AxiosRequestConfig) => {
         // 一般会请求拦截里面加token，用于后端的验证
         const token = localStorage.getItem('token') as string;
         if (token) {
-          typeof config.headers!.set === 'function' && config.headers!.set('Authorization', token);
+          typeof _config.headers!.set === 'function' &&
+            _config.headers!.set('Authorization', token);
           // config.headers!.Authorization = token;
         }
-        return config;
+        return _config;
       },
       (err: any) => {
         // 请求错误，这里可以用全局提示框进行提示
@@ -123,10 +124,7 @@ export class Request {
     return this.instance.put(url, data, config);
   }
 
-  delete<T = any>(
-    url: string,
-    config?: AxiosRequestConfig,
-  ): Promise<AxiosResponse<Result<T>>> {
+  delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<Result<T>>> {
     return this.instance.delete(url, config);
   }
 }

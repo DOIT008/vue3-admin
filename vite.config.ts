@@ -1,11 +1,12 @@
 // vite.config.js
-import { defineConfig, loadEnv, ConfigEnv, UserConfigExport } from 'vite';
+import { defineConfig, ConfigEnv, UserConfigExport } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { viteMockServe } from 'vite-plugin-mock';
 // npm install --save-dev @types/node
 import { resolve } from 'path';
 // https://vitejs.dev/config/
 const config = ({ command, mode }: ConfigEnv): UserConfigExport => {
+  console.log(command, mode);
   return defineConfig({
     publicDir: 'public',
     // 别名
