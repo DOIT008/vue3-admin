@@ -7,8 +7,9 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'; // 图标文件
 // 拿到路由对象
 import router from '@/router/index';
 import request from '@/utils/http';
-// 引入pinia
+// 路由控制
 import '@/utils/permission';
+// 引入pinia
 import pinia from '@/store/store';
 import './mocks/index';
 // 执行挂载进行实例化

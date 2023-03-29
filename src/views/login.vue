@@ -20,9 +20,7 @@
         >
         <div style="clear: both"></div>
         <div class="login-btn-wrapper">
-          <el-button class="login-btn" v-if="isLogin" type="primary" @click="getBeauties"
-            >登录</el-button
-          >
+          <el-button class="login-btn" v-if="isLogin" type="primary" @click="login">登录</el-button>
           <el-button class="login-btn" v-else type="primary" @click="register" plain
             >注册</el-button
           >
@@ -80,7 +78,7 @@ export default {
         // response.error_code
         // response.result.pageSize
         // let response = res.data;
-        console.log('res---', res);
+        console.log('res---', res.data.result.data); // 都能点（.）出来
       });
     }
     // 切换当前的状态

@@ -28,6 +28,7 @@ export function logout() {
     },
   });
 }
+// 定义result对象中的数据结构
 interface requestType {
   data: any[];
   page: string;
