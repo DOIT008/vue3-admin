@@ -95,7 +95,6 @@ export default defineComponent({
     }
     // 监控路由变化,当删除某一个tab的时候，更新左侧菜单栏哪一个菜单激活
     watch(route, (newVal) => {
-      console.log('newVal', newVal);
       state.defaultActive = newVal.path.slice(1);
     });
 

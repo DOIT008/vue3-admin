@@ -60,7 +60,6 @@ export const mainStore = defineStore('main', {
             resolve(data);
           })
           .catch((error) => {
-            console.log(error);
             reject(error);
           });
       });
@@ -70,8 +69,7 @@ export const mainStore = defineStore('main', {
     logout() {
       return new Promise((resolve, reject) => {
         logout()
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             removeToken(); // must remove  token  first
             resolve('success');
           })

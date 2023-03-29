@@ -74,11 +74,11 @@ export default {
 
     // 获取热点信息
     function getBeauties(): void {
-      getHotNews({ key: 'bd946b1c08d936d82998fe92b8691893', page: 2, pageSize: 12 }).then((res) => {
+      getHotNews({ key: 'bd946b1c08d936d82998fe92b8691893', page: 2, pageSize: 12 }).then(() => {
         // response.error_code
         // response.result.pageSize
         // let response = res.data;
-        console.log('res---', res.data.result.data); // 都能点（.）出来
+        // console.log('res---', res.data.result.data); // 都能点（.）出来
       });
     }
     // 切换当前的状态
