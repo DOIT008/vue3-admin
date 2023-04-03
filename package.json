@@ -8,9 +8,7 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "scan": "f2elint scan",
-    "fix": "f2elint fix",
-    "f2elint-scan": "f2elint scan",
-    "f2elint-fix": "f2elint fix"
+    "fix": "f2elint fix"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.10",
