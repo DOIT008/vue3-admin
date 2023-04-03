@@ -2,7 +2,7 @@
   <div>导航2</div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { reactive, toRefs } from 'vue';
 
 export default {
